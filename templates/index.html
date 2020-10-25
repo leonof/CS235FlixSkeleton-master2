@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<head>
+	<title>Welcome to Movie Center!</title>
+</head>
+<style type="text/css">
+	label{
+		font-size: 15px;
+		font-weight: 10;
+		margin: 0 15px;
+		font-style:italic;
+	}
+	.cell{
+		line-height: 150%;
+		margin: 20px 0;
+		border: 1px solid grey;
+		padding: 8px;
+	}
+</style>
+<body>
+<h2>Movie List:</h2><hr>
+<form method="GET" action='/'>
+	<input type="text" name="search">
+	<input type="submit" value='Search'>
+</form>
+<div id='movies'></div>
+<a style="display: none;" id='fpage'>front page</a>&nbsp;&nbsp;&nbsp;<a style="display: none;" id='npage' href=''>next page</a>
+</body>
+<script>
+	var pagenum = {{param_dict['page']}};
+	var pagenumAll = {{param_dict['pageAll']}};
+	var movies = "{{param_dict['movie']}}";
+	var searchKey = "{{param_dict['searchKey']}}";
+	if(pagenum<1)
+		pagenum=1;
+	if(pagenum>pagenumAll)
+		pagenum = pagenumAll;
+	document.getElementById('fpage').href = '/?searchKey='+searchKey+'&pagenum='+(pagenum-1);
+	document.getElementById('npage').href = '/?searchKey='+searchKey+'&pagenum='+(pagenum-0+1);
+	if(pagenum>1)
+		document.getElementById('fpage').style.display = '';
+	if (pagenum != pagenumAll)
+		document.getElementById('npage').style.display = '';
+	movies = movies.split(';;;');
+	for(var i=0;i<movies.length-1;i++){
+		title = movies[i].split(';;')[0];
+		year = movies[i].split(';;')[1];
+		runtime = movies[i].split(';;')[2];
+		desc = movies[i].split(';;')[3];
+		document.getElementById('movies').innerHTML +='<div class="cell"><label>Title:</label> '+title+'<label>Year:</label>'+year+'<label>Runtime:</label>'+runtime+' min(s)<br><label>Description:</label>'+desc+'</div>';
+	}
+</script>
+</html>

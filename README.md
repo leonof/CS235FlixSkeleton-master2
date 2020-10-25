@@ -1,1 +1,2 @@
-# CS235FlixSkeleton-master2
+# do
+This is a website to simulate watching movies. 
